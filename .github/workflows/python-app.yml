@@ -3,38 +3,38 @@ name: Python CI Workflow
 on:
   push:
     branches:
-      - main  # Activar quan es faci un push a la branca 'main'
+      - main  # Activar en push a la rama 'main'
   pull_request:
     branches:
-      - main  # Activar quan hi hagi un pull request a la branca 'main'
+      - main  # Activar en pull request hacia la rama 'main'
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Usar Ubuntu com a sistema operatiu
+    runs-on: ubuntu-latest  # Usar Ubuntu para el entorno
 
     steps:
-    # 1. Checkout del codi del repositori
+    # 1. Checkout del código
     - name: Checkout code
       uses: actions/checkout@v2
 
-    # 2. Configurar Docker i la imatge Python
+    # 2. Configurar Docker y construir la imagen
     - name: Set up Docker for Python
       run: |
-        docker build -t python-app .  # Construir la imatge Docker per al projecte Python
+        docker build -t python-app .  # Construir la imagen Docker
 
-    # 3. Instal·lar dependències (requirements.txt)
+    # 3. Instalar dependencias desde requirements.txt
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt  # Instal·lar dependències de requirements.txt
+        pip install -r requirements.txt  # Instalar dependencias de requirements.txt
 
-    # 4. Passar l'analitzador de codi pylint
+    # 4. Ejecutar el análisis estático de código con pylint
     - name: Run pylint
       run: |
-        pylint **/*.py  # Executar pylint sobre tots els arxius Python del projecte
+        pylint **/*.py  # Ejecutar pylint sobre todos los archivos Python del proyecto
 
-    # 5. Executar les proves i calcular la cobertura
+    # 5. Ejecutar las pruebas y calcular la cobertura
     - name: Run tests with coverage
       run: |
-        pip install pytest pytest-cov  # Instal·lar pytest i pytest-cov
-        pytest --cov=my_module tests/  # Executar els tests i calcular la cobertura
+        pip install pytest pytest-cov  # Instalar pytest y pytest-cov
+        pytest --cov=transform tests/  # Ejecutar las pruebas y calcular la cobertura del módulo transform
