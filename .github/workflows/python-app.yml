@@ -1,39 +1,40 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
-name: Python application
+name: Python CI Workflow
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches:
+      - main  # Activar quan es faci un push a la branca 'main'
   pull_request:
-    branches: [ $default-branch ]
-
-permissions:
-  contents: read
+    branches:
+      - main  # Activar quan hi hagi un pull request a la branca 'main'
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Usar Ubuntu com a sistema operatiu
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
+    # 1. Checkout del codi del repositori
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # 2. Configurar Docker i la imatge Python
+    - name: Set up Docker for Python
+      run: |
+        docker build -t python-app .  # Construir la imatge Docker per al projecte Python
+
+    # 3. Instal·lar dependències (requirements.txt)
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint with flake8
+        pip install -r requirements.txt  # Instal·lar dependències de requirements.txt
+
+    # 4. Passar l'analitzador de codi pylint
+    - name: Run pylint
       run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
+        pylint **/*.py  # Executar pylint sobre tots els arxius Python del projecte
+
+    # 5. Executar les proves i calcular la cobertura
+    - name: Run tests with coverage
       run: |
-        pytest
+        pip install pytest pytest-cov  # Instal·lar pytest i pytest-cov
+        pytest --cov=my_module tests/  # Executar els tests i calcular la cobertura
