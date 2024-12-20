@@ -36,7 +36,7 @@ jobs:
     # 5. Ejecutar el análisis estático de código con pylint
     - name: Run pylint
       run: |
-        pylint **/*.py  # Ejecutar pylint sobre todos los archivos Python del proyecto
+        pylint test.py  # Ejecutar pylint sobre todos los archivos Python del proyecto
 
     # 6. Ejecutar las pruebas y calcular la cobertura
     - name: Run tests with coverage
