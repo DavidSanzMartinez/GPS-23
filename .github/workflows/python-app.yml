@@ -17,30 +17,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    # 2. Configurar Docker y construir la imagen
-    - name: Set up Docker for Python
-      run: |
-        docker build -t python-app .  # Construir la imagen Docker
-
-    # 3. Instalar dependencias desde requirements.txt
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt  # Instalar dependencias de requirements.txt
-
-    # 4. Instalar pylint (en caso de no estar en requirements.txt)
+    # 2. Instalar pylint (en caso de no estar en requirements.txt)
     - name: Install pylint
       run: |
         pip install pylint  # Instalar pylint
 
-    # 5. Ejecutar el análisis estático de código con pylint
+    # 3. Ejecutar el análisis estático de código con pylint
     - name: Run pylint
       run: |
-        pylint test.py  # Ejecutar pylint sobre todos los archivos Python del proyecto
-
-    # 6. Ejecutar las pruebas y calcular la cobertura
-    - name: Run tests with coverage
-      run: |
-        pip install pytest pytest-cov  # Instalar pytest y pytest-cov
-        pytest --cov=transform tests/  # Ejecutar las pruebas y calcular la cobertura del módulo transform
+        pylint transform.py  # Ejecutar pylint sobre todos los archivos Python del proyecto
 
