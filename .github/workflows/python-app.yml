@@ -35,5 +35,7 @@ jobs:
     # 5. Ejecutar los tests y medir la cobertura
     - name: Run tests and coverage
       run: |
-        pytest test.py --maxfail=1 --disable-warnings --cov=transform --cov-report=xml   
+        pytest test.py --maxfail=1 --disable-warnings --cov=transform --cov-report=term 
+
+    
 
