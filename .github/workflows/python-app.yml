@@ -22,8 +22,19 @@ jobs:
       run: |
         pip install pylint  # Instalar pylint
 
-    # 3. Ejecutar el análisis estático de código con pylint
+   # 3. Run pylint
     - name: Run pylint
       run: |
-        pylint transform.py  # Ejecutar pylint sobre todos los archivos Python del proyecto
+        pylint $(git ls-files '*.py')  # Ejecutar pylint sobre todos los archivos Python del proyecto
+
+     # 4. Instalar pytest y pytest-cov
+    - name: Install pytest and pytest-cov
+      run: |
+        pip install pytest pytest-cov  # Instalar pytest y pytest-cov para pruebas y cobertura
+
+    # 5. Ejecutar los tests y medir la cobertura
+    - name: Run tests and coverage
+      run: |
+        pytest --maxfail=1 --disable-warnings -q --cov=transform --cov-report=xml  # Ejecutar los tests y generar reporte de cobertura
+   
 
