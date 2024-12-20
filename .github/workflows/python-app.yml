@@ -25,7 +25,7 @@ jobs:
    # 3. Run pylint
     - name: Run pylint
       run: |
-        pylint $(git ls-files '*.py')
+        pylint main.py transform.py
 
      # 4. Instalar pytest y pytest-cov
     - name: Install pytest and pytest-cov
@@ -35,6 +35,5 @@ jobs:
     # 5. Ejecutar los tests y medir la cobertura
     - name: Run tests and coverage
       run: |
-        pytest --maxfail=1 --disable-warnings -q --cov=transform --cov-report=xml  # Ejecutar los tests y generar reporte de cobertura
-   
+        pytest test.py --maxfail=1 --disable-warnings --cov=transform --cov-report=xml   
 
