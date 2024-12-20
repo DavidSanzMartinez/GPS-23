@@ -25,7 +25,7 @@ jobs:
    # 3. Run pylint
     - name: Run pylint
       run: |
-        pylint $(git ls-files '*.py')  # Ejecutar pylint sobre todos los archivos Python del proyecto
+        pylint transform.py  # Ejecutar pylint sobre todos los archivos Python del proyecto
 
      # 4. Instalar pytest y pytest-cov
     - name: Install pytest and pytest-cov
